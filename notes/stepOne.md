@@ -103,6 +103,6 @@ git push -u origin haggars
 - [X] `winget install Dlang.DMD`
 - [X] Neues Terminal: `dmd --version` und `dub --version` ok
 - [X] Optional: Extension `webfreak.code-d` in Cursor
-- [ ] `dub build --build=release` im Repo-Root erfolgreich
-- [ ] `reneo.exe` startet; eigene `layouts.json` / `config.json` liegen daneben
+- [X] `dub build --build=release` im Repo-Root erfolgreich
+- [X] `reneo.exe` startet; eigene `layouts.json` / `config.json` liegen daneben
 - [X] Arbeit läuft auf Branch `haggars`

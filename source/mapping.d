@@ -221,7 +221,10 @@ enum Modifier {
     ALT = 0xA4,
     LALT = 0xA4,
     RALT,
-    MOD3 = 0x100,
+    WIN = 0x5B,   // alias -> LWIN, same pattern as SHIFT/CTRL/ALT
+    LWIN = 0x5B,
+    RWIN = 0x5C,
+    MOD3 = 0x100, // explicit because of gap after RALT (0xA5)
     LMOD3 = 0x100,
     RMOD3,
     MOD4 = 0x102,
@@ -320,7 +323,7 @@ void initLayouts(JSONValue jsonLayoutArray) {
 NeoKey parseNeoKey(JSONValue jsonKey) {
     NeoKey key;
     key.vkCode = VKEY.VK_VOID;
-    
+
     if ("keysym" in jsonKey) {
         key.keysym = parseKeysym(jsonKey["keysym"].str);
     } else {

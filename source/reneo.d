@@ -42,7 +42,9 @@ static this() {
         Modifier.LCTRL: Scancode(0x1D, false),
         Modifier.RCTRL: Scancode(0x1D, true),
         Modifier.LALT: Scancode(0x38, false),
-        Modifier.RALT: Scancode(0x38, true)
+        Modifier.RALT: Scancode(0x38, true),
+        Modifier.LWIN: Scancode(0x5B, true),
+        Modifier.RWIN: Scancode(0x5C, true)
     ];
 
     version(FileLogging) {
@@ -158,7 +160,7 @@ void sendUTF16(wchar unicodeChar, bool down) nothrow {
     SendInput(1, &inputStruct, INPUT.sizeof);
 }
 
-const REAL_MODIFIERS = [Modifier.LSHIFT, Modifier.RSHIFT, Modifier.LCTRL, Modifier.RCTRL, Modifier.LALT, Modifier.RALT];
+const REAL_MODIFIERS = [Modifier.LSHIFT, Modifier.RSHIFT, Modifier.LCTRL, Modifier.RCTRL, Modifier.LALT, Modifier.RALT, Modifier.LWIN, Modifier.RWIN];
 
 void sendVKWithModifiers(uint vk, Scancode scan, PartialModifierState newForcedModifiers, bool down) nothrow {
     // Send VK and necessary modifiers, so that the forced modifiers ("newForcedModifiers") are in desired state.
@@ -286,7 +288,7 @@ void sendUTF16OrKeyCombo(wchar unicodeChar, bool down) nothrow {
     if (ctrl) { kb[VK_CONTROL] |= 128; }
     if (alt) { kb[VK_MENU] |= 128; }
     if (capslock) { kb[VK_CAPITAL] = 1; } // Set toggle state of capslock
-    
+
     auto unicodeTranslationResult = ToUnicodeEx(vk, 0, kb.ptr, buf.ptr, 4, 0, lastInputLocale);
     if (unicodeTranslationResult == -1) {
         debugWriteln("Standard key combination results in a dead key, sending VK packet instead.");
@@ -320,7 +322,7 @@ void sendUTF16OrKeyCombo(wchar unicodeChar, bool down) nothrow {
     }
 
     auto scan = Scancode(MapVirtualKeyEx(vk, MAPVK_VK_TO_VSC, lastInputLocale));
-    
+
     PartialModifierState mods;
 
     if (down) {
@@ -357,12 +359,12 @@ void sendString(wstring content) nothrow {
     INPUT[] inputs;
     inputs.length = content.length * 2;
 
-    for (uint i = 0; i < content.length; i++) {    
+    for (uint i = 0; i < content.length; i++) {
         inputs[2*i].type = INPUT_KEYBOARD;
         inputs[2*i].ki.wVk = 0;
         inputs[2*i].ki.wScan = content[i];
         inputs[2*i].ki.dwFlags = KEYEVENTF_UNICODE;
-        
+
         inputs[2*i + 1].type = INPUT_KEYBOARD;
         inputs[2*i + 1].ki.wVk = 0;
         inputs[2*i + 1].ki.wScan = content[i];
@@ -608,7 +610,7 @@ bool handleKeyEvent(Scancode scan, bool down) nothrow {
         shouldEatModifier = standaloneModeActive || oneHandedModeActive || (isNeoModifier && configFilterNeoModifiers);
         // We should only send our own event if we ate the original and this is a native modifier
         bool shouldSendModifier = shouldEatModifier && !isNeoModifier;
-        
+
         if (down) {
             // Add scancode to set for this modifier
             naturalHeldModifiers[mod][scan] = [];
@@ -871,7 +873,7 @@ bool keyboardHook(WPARAM msgType, KBDLLHOOKSTRUCT msgStruct) nothrow {
     // ---- One handed mode ----
     // The point of this whole state machine is to produce the following behaviour:
     // M - mirror key | A, B, ... - other keys | A' - key A mirrored | U - up | D - down
-    
+
     // Case 1:   MD         MU                               ("unused" mirror key creates events on up)
     // Result 1:            MD MU
 
@@ -881,9 +883,9 @@ bool keyboardHook(WPARAM msgType, KBDLLHOOKSTRUCT msgStruct) nothrow {
     // Case 3:   MD    AD    AU         MU                   (keys pressed *and released* while mirror key is held are mirrored)
     // Result 3:             A'D A'U                         (also, mirror key does not create its own event)
 
-    // Case 4:   MD    AD   BD    MU              AU   BU    (keys pressed but not released while mirror key is held create down 
+    // Case 4:   MD    AD   BD    MU              AU   BU    (keys pressed but not released while mirror key is held create down
     // Result 4:                  MD MU AD BD     AU   BU     events in correct order after mirror key up)
-    
+
     if (oneHandedModeActive) {
         if (scan == configOneHandedModeMirrorKey) {
             mirrorKeyHeld = down;

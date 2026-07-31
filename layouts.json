@@ -417,7 +417,7 @@
 					{
 						"keysym": "D",
 						"vk": "VK_KEY_D",
-						"mods": {"Shift": true},
+						"mods": {"LWin": true},
 						"label": "D"
 					}
 				],
