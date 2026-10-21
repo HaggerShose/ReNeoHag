@@ -14,7 +14,7 @@ import core.sys.windows.windows;
 
 import mapping;
 import composer;
-import app : configAutoNumlock, configEnableMod4Lock, configFilterNeoModifiers, configOneHandedModeMirrorKey, configOneHandedModeMirrorMap, updateOSKAsync, toggleOSK, toggleOneHandedMode, lastInputLocale;
+import app : configAutoNumlock, configEnableMod4Lock, configFilterNeoModifiers, configRemapCopilotKey, configOneHandedModeMirrorKey, configOneHandedModeMirrorMap, updateOSKAsync, toggleOSK, toggleOneHandedMode, lastInputLocale;
 
 const SC_FAKE_LSHIFT = 0x22A;
 const SC_FAKE_RSHIFT = 0x236;
@@ -535,6 +535,9 @@ Scancode[] primedOneHandedKeys;
 // the last event was a dual state numpad key up with held shift key, eat the next shift down
 bool expectFakeShiftDown;
 
+// Copilot key chord (Win+Shift+F23) was seen; fire Apps after the whole chord has been released
+bool copilotChordSeen;
+
 
 bool isModifierHeld(Modifier mod) nothrow {
     // refers to "natural modifier state"
@@ -854,6 +857,20 @@ bool keyboardHook(WPARAM msgType, KBDLLHOOKSTRUCT msgStruct) nothrow {
         return true;  // Eat F1
     }
 
+    // The Copilot key sends Win+Shift+F23. Win is usually a Neo modifier and gets eaten, so Windows
+    // never sees the chord. Eat F23, let Win/Shift finish their normal up cycle, then fire a clean
+    // Apps (context menu) tap once everything is released again.
+    if (configRemapCopilotKey && vk == VK_F23) {
+        if (down && isModifierHeld(Modifier.MOD5) &&
+            (isModifierHeld(Modifier.LSHIFT) || isModifierHeld(Modifier.RSHIFT))) {
+            copilotChordSeen = true;
+            return true;
+        }
+        if (!down && copilotChordSeen) {
+            return true;
+        }
+    }
+
     // Toggle one handed mode on M3+F10
     if (vk == VK_F10 && down && (isModifierHeld(Modifier.LMOD3) || isModifierHeld(Modifier.RMOD3))) {
         toggleOneHandedMode();
@@ -942,5 +959,17 @@ bool keyboardHook(WPARAM msgType, KBDLLHOOKSTRUCT msgStruct) nothrow {
         }
     }
 
-    return handleKeyEvent(scan, down);
+    bool eat = handleKeyEvent(scan, down);
+
+    // After the Copilot chord has fully released (F23 eaten, Shift/Win up processed), fire Apps.
+    if (copilotChordSeen &&
+        !isModifierHeld(Modifier.MOD5) &&
+        !isModifierHeld(Modifier.LSHIFT) &&
+        !isModifierHeld(Modifier.RSHIFT)) {
+        sendVK(VK_APPS, Scancode(0x5D, true), true);
+        sendVK(VK_APPS, Scancode(0x5D, true), false);
+        copilotChordSeen = false;
+    }
+
+    return eat;
 }

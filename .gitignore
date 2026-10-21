@@ -8,3 +8,5 @@
 /*.dll
 config.json
 /source/gen/packageVersion.d
+reneo_log.txt
+reneo.pdb

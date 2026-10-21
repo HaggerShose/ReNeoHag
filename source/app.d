@@ -77,6 +77,7 @@ NeoLayout *configStandaloneLayout;
 bool configAutoNumlock;
 bool configEnableMod4Lock;
 bool configFilterNeoModifiers;
+bool configRemapCopilotKey;
 HotkeyConfig configHotkeyToggleActivation;
 HotkeyConfig configHotkeyToggleOSK;
 HotkeyConfig configHotkeyToggleOneHandedMode;
@@ -629,6 +630,7 @@ void initialize() {
         configAutoNumlock = configJson["autoNumlock"].boolean;
         configEnableMod4Lock = configJson["enableMod4Lock"].boolean;
         configFilterNeoModifiers = configJson["filterNeoModifiers"].boolean;
+        configRemapCopilotKey = configJson["remapCopilotKey"].boolean;
 
         // Parse hotkeys (might be null -> user doesn't want to use hotkey)
         if (configJson["hotkeys"]["toggleActivation"].type == JSONType.STRING) {
