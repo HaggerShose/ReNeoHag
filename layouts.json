@@ -99,7 +99,12 @@
 					{"keysym": "onesuperior", "char": "¹"},
 					{"keysym": "onesubscript", "char": "₁"},
 					{"keysym": "notsign", "char": "¬"},
-					{}
+					{
+						"keysym": "1",
+						"vk": "VK_KEY_1",
+						"mods": {"LWin": true},
+						"label": "W1"
+					}
 				],
 				"03": [
 					{"keysym": "2", "vk": "VK_KEY_2", "label": "2"},
@@ -108,7 +113,12 @@
 					{"keysym": "twosuperior", "char": "²"},
 					{"keysym": "twosubscript", "char": "₂"},
 					{"keysym": "logicalor", "char": "∨"},
-					{}
+					{
+						"keysym": "2",
+						"vk": "VK_KEY_2",
+						"mods": {"LWin": true},
+						"label": "W2"
+					}
 				],
 				"04": [
 					{"keysym": "3", "vk": "VK_KEY_3", "label": "3"},
@@ -117,7 +127,12 @@
 					{"keysym": "threesuperior", "char": "³"},
 					{"keysym": "threesubscript", "char": "₃"},
 					{"keysym": "logicaland", "char": "∧"},
-					{"keysym": "numerosign", "char": "№"}
+					{
+						"keysym": "3",
+						"vk": "VK_KEY_3",
+						"mods": {"LWin": true},
+						"label": "W3"
+					}
 				],
 				"05": [
 					{"keysym": "4", "vk": "VK_KEY_4", "label": "4"},
@@ -126,7 +141,12 @@
 					{"keysym": "U2113", "char": "ℓ"},
 					{"keysym": "femalesymbol", "char": "\u2640"},
 					{"keysym": "uptack", "char": "⊥"},
-					{}
+					{
+						"keysym": "4",
+						"vk": "VK_KEY_4",
+						"mods": {"LWin": true},
+						"label": "W4"
+					}
 				],
 				"06": [
 					{"keysym": "5", "vk": "VK_KEY_5", "label": "5"},
@@ -135,7 +155,12 @@
 					{"keysym": "U2221", "char": "∡"},
 					{"keysym": "malesymbol", "char": "\u2642"},
 					{},
-					{"keysym": "periodcentered", "char": "·"}
+					{
+						"keysym": "5",
+						"vk": "VK_KEY_5",
+						"mods": {"LWin": true},
+						"label": "W5"
+					}
 				],
 				"07": [
 					{"keysym": "6", "vk": "VK_KEY_6", "label": "6"},
@@ -144,7 +169,12 @@
 					{"keysym": "sterling", "char": "£"},
 					{"keysym": "U26A5", "char": "\u26A5"},
 					{"keysym": "U2225", "char": "∥"},
-					{}
+					{
+						"keysym": "6",
+						"vk": "VK_KEY_6",
+						"mods": {"LWin": true},
+						"label": "W6"
+					}
 				],
 				"08": [
 					{"keysym": "7", "vk": "VK_KEY_7", "label": "7"},
@@ -157,7 +187,12 @@
 					},
 					{"keysym": "U03F0", "char": "ϰ"},
 					{"keysym": "rightarrow", "char": "→"},
-					{}
+					{
+						"keysym": "7",
+						"vk": "VK_KEY_7",
+						"mods": {"LWin": true},
+						"label": "W7"
+					}
 				],
 				"09": [
 					{"keysym": "8", "vk": "VK_KEY_8", "label": "8"},
@@ -174,7 +209,12 @@
 					},
 					{"keysym": "leftanglebracket", "char": "\u27E8"},
 					{"keysym": "infinity", "char": "∞"},
-					{}
+					{
+						"keysym": "8",
+						"vk": "VK_KEY_8",
+						"mods": {"LWin": true},
+						"label": "W8"
+					}
 				],
 				"0A": [
 					{"keysym": "9", "vk": "VK_KEY_9", "label": "9"},
@@ -191,7 +231,12 @@
 					},
 					{"keysym": "rightanglebracket", "char": "\u27E9"},
 					{"keysym": "variation", "char": "∝"},
-					{}
+					{
+						"keysym": "9",
+						"vk": "VK_KEY_9",
+						"mods": {"LWin": true},
+						"label": "W9"
+					}
 				],
 				"0B": [
 					{"keysym": "0", "vk": "VK_KEY_0", "label": "0"},
@@ -282,7 +327,12 @@
 					{"keysym": "EuroSign", "char": "€"},
 					{"keysym": "Greek_epsilon", "char": "ε"},
 					{"keysym": "U2203", "char": "∃"},
-					{}
+					{
+						"keysym": "E",
+						"vk": "VK_KEY_E",
+						"mods": {"LWin": true},
+						"label": "WE"
+					}
 				],
 				"13": [
 					{"keysym": "r", "vk": "VK_KEY_R", "label": "r"},
@@ -418,7 +468,7 @@
 						"keysym": "D",
 						"vk": "VK_KEY_D",
 						"mods": {"LWin": true},
-						"label": "D"
+						"label": "WD"
 					}
 				],
 				"21": [
@@ -551,7 +601,7 @@
 						"mods": {"LCtrl": true, "RAlt": true},
 						"label": "["
 					},
-					{"keysym": "Insert", "vk": "VK_INSERT", "label": "Ins"},
+					{},
 					{"keysym": "Greek_chi", "char": "χ"},
 					{"keysym": "U2102", "char": "ℂ"},
 					{}
@@ -564,15 +614,21 @@
 						"mods": {"LCtrl": true, "RAlt": true},
 						"label": "]"
 					},
-					{"keysym": "Return", "vk": "VK_RETURN", "label": "\u21a9"},
+
+					{"keysym": "Insert", "vk": "VK_INSERT", "label": "Ins"},
 					{},
 					{"keysym": "radical", "char": "√"},
-					{}
+					{
+						"keysym": "V",
+						"vk": "VK_KEY_V",
+						"mods": {"LShift": true},
+						"label": "WV"
+					}
 				],
 				"30": [
 					{"keysym": "b", "vk": "VK_KEY_B", "label": "b"},
 					{"keysym": "B", "vk": "VK_KEY_B", "label": "B"},
-					{"keysym": "grave", "char": "`"},
+					{},
 					{"vk": "VK_KEY_Z", "mods": {"Ctrl": true}, "label": "\u238c"},
 					{"keysym": "Greek_beta", "char": "β"},
 					{"keysym": "U21D0", "char": "⇐"},
