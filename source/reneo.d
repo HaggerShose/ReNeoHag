@@ -612,8 +612,19 @@ bool setActiveLayout(NeoLayout* newLayout) nothrow @nogc {
 	return changed;
 }
 
+void releaseNativeModifiers() nothrow {
+	// If a native modifier was held before the hook was installed (esp. Win used as Mod5),
+	// its key-up gets eaten and Windows keeps the key stuck. Always send key-ups on activate.
+	foreach (mod; REAL_MODIFIERS) {
+		sendVK(mod, SCANCODE_BY_MODIFIER[mod],
+			false);
+	}
+}
+
 void resetHookStates() nothrow {
 	// Reset all stored states that might lead to unwanted locks
+	releaseNativeModifiers();
+
 	naturalHeldModifiers.clear();
 	heldKeys.clear();
 	currentForcedModifiers.clear();
